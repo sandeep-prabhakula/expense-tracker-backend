@@ -16,7 +16,7 @@ public class ServiceWakingupJob {
     @Scheduled(cron = "0 */12 * * * ?")
     public void getBlog(){
         try{
-            String url = "https://codeverse-chronicles.onrender.com/users/job";
+            String url = "https://expensetracker-mbqurkyj.b4a.run/users/job";
             String response = restTemplate.getForObject(url, String.class);
             System.out.println("I'm awake " + new Date());
         }catch (Exception e){
