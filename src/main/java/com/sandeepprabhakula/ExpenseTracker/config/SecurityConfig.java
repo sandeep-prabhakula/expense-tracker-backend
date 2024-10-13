@@ -39,7 +39,7 @@ public class SecurityConfig {
                         authorize.requestMatchers("/users/login","/users/register","/users/job").permitAll()
                 )
                 .authorizeHttpRequests((authorize)->
-                        authorize.requestMatchers("users/update-profile","users/delete-profile","/expenses/**").authenticated())
+                        authorize.requestMatchers("users/update-profile","users/delete-profile","/expenses/**","users/get-user-details/**").authenticated())
                 .sessionManagement((sm) ->
                         sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
