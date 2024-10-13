@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserService {
     ResponseEntity<?>register(User user);
-
+    ResponseEntity<?>getUserDetails(String uid);
     ResponseEntity<?>login(LoginDTO loginDTO);
     ResponseEntity<?>updateProfile(User user);
     ResponseEntity<?>deleteProfile(User user);

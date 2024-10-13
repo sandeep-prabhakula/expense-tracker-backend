@@ -51,23 +51,42 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseEntity<?> getUserDetails(String uid) {
+        Map<String, Object> responseBody = new HashMap<>();
+        try {
+            Optional<User> optionalUser = userRepository.findById(uid);
+            if (optionalUser.isPresent()) {
+                return new ResponseEntity<>(optionalUser.get(), HttpStatus.OK);
+            }
+            responseBody.put("status", 400);
+            responseBody.put("message", "User with id "+uid+" doesn't exist.");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+
+        } catch (Exception e) {
+            responseBody.put("status", 400);
+            responseBody.put("message", e.getMessage());
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
     public ResponseEntity<?> login(LoginDTO loginDTO) {
         Map<String, Object> responseBody = new HashMap<>();
-        try{
+        try {
             Authentication auth = authMan.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
             Optional<User> response = userRepository.findByEmail(loginDTO.getEmail());
             if (auth.isAuthenticated() && response.isPresent()) {
                 User user = response.get();
-                return new ResponseEntity<>(new LoginResponseDTO(jwtService.generateToken(loginDTO.getEmail()), user.getId(),user.getEmail(), user.getName()), HttpStatus.OK);
+                return new ResponseEntity<>(new LoginResponseDTO(jwtService.generateToken(loginDTO.getEmail()), user.getId(), user.getEmail(), user.getName()), HttpStatus.OK);
             } else {
 
                 responseBody.put("status", 400);
                 responseBody.put("message", "Invalid Credentials");
                 return new ResponseEntity<>(responseBody, HttpStatus.UNAUTHORIZED);
             }
-        }catch(Exception e){
-            responseBody.put("status",400);
-            responseBody.put("message",e.getMessage());
+        } catch (Exception e) {
+            responseBody.put("status", 400);
+            responseBody.put("message", e.getMessage());
             return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
         }
     }
@@ -88,8 +107,8 @@ public class UserServiceImpl implements UserService {
                 return new ResponseEntity<>(userRepository.save(curUser), HttpStatus.OK);
             }
         } catch (Exception e) {
-            response.put("status",400);
-            response.put("message",e.getMessage());
+            response.put("status", 400);
+            response.put("message", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

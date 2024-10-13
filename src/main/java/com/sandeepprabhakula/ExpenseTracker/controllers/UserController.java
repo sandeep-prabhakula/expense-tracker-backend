@@ -55,5 +55,13 @@ public class UserController {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("/get-user-details/{id}")
+    public ResponseEntity<?>getUserDetails(@PathVariable("id") String id){
+        try{
+            return userService.getUserDetails(id);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }
