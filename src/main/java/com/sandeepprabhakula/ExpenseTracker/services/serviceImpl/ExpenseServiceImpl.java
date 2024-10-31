@@ -64,6 +64,7 @@ public class ExpenseServiceImpl implements ExpenseService {
             }
             Expense existingExpense = optionalExpense.get();
             existingExpense.setTodayExpenses(expense.getTodayExpenses());
+            existingExpense.setTotalSum(expense.getTotalSum());
             return new ResponseEntity<>(expenseRepository.save(existingExpense), HttpStatus.OK);
         } catch (Exception e) {
             response.put("status", 400);
