@@ -7,6 +7,7 @@ import com.sandeepprabhakula.ExpenseTracker.repositories.ExpenseRepository;
 import com.sandeepprabhakula.ExpenseTracker.repositories.UserRepository;
 import com.sandeepprabhakula.ExpenseTracker.services.ExpenseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -85,7 +86,7 @@ public class ExpenseServiceImpl implements ExpenseService {
             }
             else {
 
-                List<Expense>allExpenses = expenseRepository.findAllByUid(id);
+                List<Expense>allExpenses = expenseRepository.findAllByUid(id, Sort.by(Sort.Direction.DESC,"date"));
                 return new ResponseEntity<>(allExpenses,HttpStatus.OK);
             }
         }catch (Exception e){
@@ -131,7 +132,7 @@ public class ExpenseServiceImpl implements ExpenseService {
             }
             else {
 
-                List<Expense>allExpenses = expenseRepository.findAllByUid(id);
+                List<Expense>allExpenses = expenseRepository.findAllByUid(id,Sort.by(Sort.Direction.DESC,"date"));
                 double sum = 0;
                 for(Expense e:allExpenses)sum+=e.getTotalSum();
                 response.put("status", 200);
